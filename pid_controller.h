@@ -9,7 +9,7 @@ struct PIDParameters {
     double k_p;
     double k_i;
     double k_d;
-};
+}; //TODO: Should this be in k_p/t_i/t_d form instead?
 
 class PIDController {
     public:
