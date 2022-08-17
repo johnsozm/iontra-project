@@ -43,12 +43,11 @@ class PIDController {
         */
         double calculateOutput(double _state, double _timestamp);
         
-        /**
-        * Updates the target system state.
-        *
-        * _target: The new target state.
-        */
-        void updateTarget(double _target);
+        //Getter and setter methods
+        PIDParameters getParams() {return params;}
+        void setParams(PIDParameters _params) {params = _params;}
+        double getTarget() {return target;}
+        void setTarget(double _target) {target = _target;}
         
     private:
         //PID parameters

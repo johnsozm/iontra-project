@@ -25,7 +25,3 @@ double PIDController::calculateOutput(double state, double timestamp) {
     last_error = error;
     return response;
 }
-
-void PIDController::updateTarget(double _target) {
-    target = _target;
-}

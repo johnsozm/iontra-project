@@ -37,7 +37,7 @@ bool testStepFunction() {
     	if (i == 100) {
     		target = 1;
     	}
-    	controller.updateTarget(target);
+    	controller.setTarget(target);
     	double output = controller.calculateOutput(state, t);
     	velocity += output * dt;
     	state += velocity * dt;
@@ -82,7 +82,7 @@ bool testSquareWave() {
     	if (i % 1000 == 0) {
     		target = 1 - target;
     	}
-    	controller.updateTarget(target);
+    	controller.setTarget(target);
     	double output = controller.calculateOutput(state, t);
     	velocity += output * dt;
     	state += velocity * dt;
@@ -137,7 +137,7 @@ bool testUnevenSquareWave() {
     			}
     		}
     	}
-    	controller.updateTarget(target);
+    	controller.setTarget(target);
     	double output = controller.calculateOutput(state, t);
     	velocity += output * dt;
     	state += velocity * dt;
@@ -179,7 +179,7 @@ void testSinusoid() {
     for (int i = 0; i < 1000; i++) {
     	t += dt;
     	target = sin(t * 6.283185);
-    	controller.updateTarget(target);
+    	controller.setTarget(target);
     	double output = controller.calculateOutput(state, t);
     	velocity += output * dt;
     	state += velocity * dt;
