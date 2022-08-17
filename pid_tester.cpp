@@ -19,9 +19,15 @@ using namespace std;
 * Returns: True if the system has stabilized to within 0.05 or the _should_stabilize flag is false, false otherwise.
 */
 bool testGenericFunction(PIDParameters _params, string _output_file, double _max_t, double _dt, bool _should_stabilize, double (*_targetFunction)(double)) {
-	//Write file header
+	//Open file and write file header
     ofstream out;
     out.open(_output_file);
+    
+    if (!out) {
+    	cout << "Unable to open " << _output_file << " for write." << endl;
+    	return false;
+    }
+    
     out << "Time,Target,State" << endl;
     
     double t = 0;
