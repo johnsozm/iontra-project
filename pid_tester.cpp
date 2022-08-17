@@ -23,7 +23,8 @@ void testStepFunction() {
     double velocity = 0;
     double target = 0;
     
-    PIDController controller(params, target, t, state);
+    PIDController controller(params);
+    controller.initialize(target, state, t);
     
     for (int i = 0; i < 1000; i++) {
     	t += dt;
@@ -59,7 +60,8 @@ void testSquareWave() {
     double velocity = 0;
     double target = 0;
     
-    PIDController controller(params, target, t, state);
+    PIDController controller(params);
+    controller.initialize(target, state, t);
     
     for (int i = 0; i < 10000; i++) {
     	t += dt;
@@ -95,7 +97,8 @@ void testUnevenSquareWave() {
     double velocity = 0;
     double target = 0;
     
-    PIDController controller(params, target, t, state);
+    PIDController controller(params);
+    controller.initialize(target, state, t);
     
     for (int i = 0; i < 10000; i++) {
     	t += dt;
@@ -141,7 +144,8 @@ void testSinusoid() {
     double velocity = 0;
     double target = 0;
     
-    PIDController controller(params, target, t, state);
+    PIDController controller(params);
+    controller.initialize(target, state, t);
     
     for (int i = 0; i < 1000; i++) {
     	t += dt;

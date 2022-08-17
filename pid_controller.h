@@ -8,9 +8,11 @@ struct PIDParameters {
 class PIDController {
     public:
         //Initialize new PID controller from parameters
-        PIDController(PIDParameters _params, double _target, double timestamp, double state);
+        PIDController(PIDParameters _params);
+        //Iniitalize controller timestamp and state
+        void initialize(double _target, double _state, double _timestamp);
         //Get output value based on current system state
-        double calculateOutput(double state, double timestamp);
+        double calculateOutput(double _state, double _timestamp);
         //Update target value
         void updateTarget(double _target);
     private:

@@ -1,11 +1,14 @@
 #include "pid_controller.h"
 
-PIDController::PIDController(PIDParameters _params, double _target, double timestamp, double state) {
+PIDController::PIDController(PIDParameters _params) {
     params = _params;
-    target = _target;
-    last_timestamp = timestamp;
-    last_error = state - target;
-    error_integral = 0;
+}
+
+void PIDController::initialize(double _target, double _state, double _timestamp) {
+	target = _target;
+	last_error = _target - _state;
+	last_timestamp = _timestamp;
+	error_integral = 0;
 }
 
 double PIDController::calculateOutput(double state, double timestamp) {
