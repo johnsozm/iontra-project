@@ -9,8 +9,9 @@ using namespace std;
 * Runs PID controller against a target which suddenly steps to 1.
 *
 * Results are logged to test_results/step_function.csv.
+* Returns: True if the system has stabilized to within 0.05, false otherwise.
 */
-void testStepFunction() {
+bool testStepFunction() {
 	//Write file header
     ofstream out;
     out.open("test_results/step_function.csv");
@@ -45,14 +46,17 @@ void testStepFunction() {
     }
      
     out.close();
+    
+    return abs(target - state) < 0.05;
 }
 
 /**
 * Runs PID controller against a target which changes as a square wave.
 *
 * Results are logged to test_results/square_wave.csv.
+* Returns: True if the system has stabilized to within 0.05, false otherwise.
 */
-void testSquareWave() {
+bool testSquareWave() {
     //Write file header
     ofstream out;
     out.open("test_results/square_wave.csv");
@@ -87,14 +91,17 @@ void testSquareWave() {
     }
      
     out.close();
+    
+    return abs(target - state) < 0.05;
 }
 
 /**
 * Runs PID controller against a target which changes as an uneven square wave.
 *
 * Results are logged to test_results/uneven_square_wave.csv.
+* Returns: True if the system has stabilized to within 0.05, false otherwise.
 */
-void testUnevenSquareWave() {
+bool testUnevenSquareWave() {
     //Write file header
     ofstream out;
     out.open("test_results/uneven_square_wave.csv");
@@ -139,12 +146,14 @@ void testUnevenSquareWave() {
     }
      
     out.close();
+    
+    return abs(target - state) < 0.05;
 }
 
 /**
 * Runs PID controller against a target which changes in a sinusoidal fashion.
 *
-* Results are logged to test_results/sinusoid.csv.
+* Full results are logged to test_results/sinusoid.csv.
 */
 void testSinusoid() {
     //Write file header
@@ -185,9 +194,15 @@ void testSinusoid() {
 * Runs all test cases.
 */
 int main() {
-    testStepFunction();
-    testSquareWave();
-    testUnevenSquareWave();
+    if (!testStepFunction()) {
+    	return 1;
+    }
+    if (!testSquareWave()) {
+    	return 1;
+    }
+    if (!testUnevenSquareWave()) {
+    	return 1;
+    }
     testSinusoid();
     
     return 0;
