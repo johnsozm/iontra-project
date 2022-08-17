@@ -1,4 +1,5 @@
 #include "pid_controller.h"
+
 PIDController::PIDController(PIDParameters _params, double _target, double timestamp, double state) {
     params = _params;
     target = _target;
@@ -9,7 +10,7 @@ PIDController::PIDController(PIDParameters _params, double _target, double times
 
 double PIDController::calculateOutput(double state, double timestamp) {
     //Calculate numerical derivative and integral
-    double error = state - target;
+    double error = target - state;
     double dt = timestamp - last_timestamp;
     double error_derivative = (error - last_error) / dt;
     error_integral += ((error + last_error) / 2) * dt;
