@@ -15,11 +15,12 @@ using namespace std;
 * _dt: The timestep to be used.
 * _should_stabilize: Whether this case is expected to stabilize close to the target.
 * _targetFunction: A function which takes the current time as a double and yields the target as a double.
+* _forcingFunction: A function which takes the current time as a double and yields the external forcing on the system as a double.
 * 
 * Returns: True if the system has stabilized to within 0.05 or the _should_stabilize flag is false, false otherwise.
 */
-bool testGenericFunction(PIDParameters _params, string _output_file, double _max_t, double _dt, bool _should_stabilize, double (*_targetFunction)(double)) {
-	//Open file and write file header
+bool testGenericFunction(PIDParameters _params, string _output_file, double _max_t, double _dt, bool _should_stabilize, double (*_targetFunction)(double), double (*_forcingFunction)(double)) {
+    //Open file and write file header
     ofstream out;
     out.open(_output_file);
     
@@ -44,7 +45,7 @@ bool testGenericFunction(PIDParameters _params, string _output_file, double _max
     	target = _targetFunction(t);
     	controller.setTarget(target);
     	double output = controller.calculateOutput(state, t);
-    	velocity += output * dt;
+    	velocity += output * dt + _forcingFunction(t);
     	state += velocity * dt;
     	
     	out << t << "," << target << "," << state << endl;
@@ -106,7 +107,7 @@ double unevenSquareWave(double _t) {
 }
 
 /**
-* Generates a sine wave of period 1s.
+* Generates a sine wave of amplitude 1 and period 1s.
 *
 * _t: The time at which to get the target.
 */
@@ -115,26 +116,59 @@ double sinWave(double _t) {
 }
 
 /**
+* Function which generates no force (for basic testing).
+*
+* _t: ignored parameter.
+*/
+double noForce(double _t) {
+	return 0;
+}
+
+/**
+* Generates a constant forcing to the system.
+*
+* _t: The time at which to get the force.
+*/
+double constantForce(double _t) {
+	return 0.01;
+}
+
+/**
+* Generates a sinusoidal forcing to the system.
+*
+* _t: The time at which to get the force.
+*/
+double sinusoidalForce(double _t) {
+	return 0.01 * sin(_t * 0.4);
+}
+
+/**
 * Runs all test cases.
 */
 int main() {
 	PIDParameters params {
-    	k_p: 5,
-    	k_i: 5,
-    	k_d: 5
+    	k_p: 20,
+    	k_i: 20,
+    	k_d: 20
     };
     
-    if (!testGenericFunction(params, "test_results/step_function.csv", 10, 0.01, true, stepFunction)) {
+    if (!testGenericFunction(params, "test_results/step_function.csv", 10, 0.01, true, stepFunction, noForce)) {
     	return 1;
     }
-    if (!testGenericFunction(params, "test_results/square_wave.csv", 100, 0.01, true, squareWave)) {
+    if (!testGenericFunction(params, "test_results/square_wave.csv", 100, 0.01, true, squareWave, noForce)) {
     	return 1;
     }
-    if (!testGenericFunction(params, "test_results/uneven_square_wave.csv", 100, 0.01, true, unevenSquareWave)) {
+    if (!testGenericFunction(params, "test_results/uneven_square_wave.csv", 100, 0.01, true, unevenSquareWave, noForce)) {
     	return 1;
     }
-    if (!testGenericFunction(params, "test_results/sinusoid.csv", 10, 0.01, false, sinWave)) {
+    if (!testGenericFunction(params, "test_results/sinusoid.csv", 10, 0.01, false, sinWave, noForce)) {
 	    return 1;
+    }
+    if (!testGenericFunction(params, "test_results/constant_forced_square_wave.csv", 100, 0.01, true, squareWave, constantForce)) {
+    	return 1;
+    }
+    if (!testGenericFunction(params, "test_results/sine_forced_square_wave.csv", 100, 0.01, true, squareWave, sinusoidalForce)) {
+    	return 1;
     }
     
     return 0;
