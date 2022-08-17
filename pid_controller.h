@@ -1,4 +1,10 @@
-//Struct containing PID control parameters
+/**
+* Struct for basic PID operation parameters.
+*
+* k_p: Proportional response coefficient.
+* k_i: Integral response coefficient.
+* k_d: Derivative response coefficient.
+*/
 struct PIDParameters {
     double k_p;
     double k_i;
@@ -7,20 +13,49 @@ struct PIDParameters {
 
 class PIDController {
     public:
-        //Initialize new PID controller from parameters
+        /**
+        * Constructor function. Creates a new controller instance with the given parameters.
+        *
+        * _params: a PIDParameters struct containing the PID response parameters.
+        *
+        * Returns: A PIDController instance using the given parameters.
+        */
         PIDController(PIDParameters _params);
-        //Iniitalize controller timestamp and state
+        
+        /**
+        * Initializes the controller instance with the current system state and timestamp as a baseline.
+        * Should be called immediately before use.
+        *
+        * _target: The target system state.
+        * _state: The current system state.
+        * _timestamp: The current time.
+        */
         void initialize(double _target, double _state, double _timestamp);
-        //Get output value based on current system state
+        
+        
+        /**
+        * Calculates the controller response to the current system state and timestamp.
+        *
+        * _state: The current system state.
+        * _timestamp: The current time.
+        *
+        * Returns: The calculated controller response.
+        */
         double calculateOutput(double _state, double _timestamp);
-        //Update target value
+        
+        /**
+        * Updates the target system state.
+        *
+        * _target: The new target state.
+        */
         void updateTarget(double _target);
+        
     private:
-        //Currently used PID parameters
+        //PID parameters
         PIDParameters params;
         //Current target value
         double target;
-        //Timestamp of last query
+        //Time of last query
         double last_timestamp;
         //State from last query
         double last_error;

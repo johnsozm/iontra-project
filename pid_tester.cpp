@@ -5,6 +5,11 @@
 
 using namespace std;
 
+/**
+* Runs PID controller against a target which suddenly steps to 1.
+*
+* Results are logged to test_results/step_function.csv.
+*/
 void testStepFunction() {
 	//Write file header
     ofstream out;
@@ -42,6 +47,11 @@ void testStepFunction() {
     out.close();
 }
 
+/**
+* Runs PID controller against a target which changes as a square wave.
+*
+* Results are logged to test_results/square_wave.csv.
+*/
 void testSquareWave() {
     //Write file header
     ofstream out;
@@ -79,6 +89,11 @@ void testSquareWave() {
     out.close();
 }
 
+/**
+* Runs PID controller against a target which changes as an uneven square wave.
+*
+* Results are logged to test_results/uneven_square_wave.csv.
+*/
 void testUnevenSquareWave() {
     //Write file header
     ofstream out;
@@ -126,6 +141,11 @@ void testUnevenSquareWave() {
     out.close();
 }
 
+/**
+* Runs PID controller against a target which changes in a sinusoidal fashion.
+*
+* Results are logged to test_results/sinusoid.csv.
+*/
 void testSinusoid() {
     //Write file header
     ofstream out;
@@ -161,10 +181,14 @@ void testSinusoid() {
     out.close();
 }
 
+/**
+* Runs all test cases.
+*/
 int main() {
     testStepFunction();
     testSquareWave();
     testUnevenSquareWave();
     testSinusoid();
+    
     return 0;
 }
