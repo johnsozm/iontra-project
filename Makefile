@@ -1,4 +1,4 @@
-test.out:
+test.out: pid_tester.cpp pid_controller.cpp pid_controller.h
 	@ g++ pid_controller.h pid_controller.cpp pid_tester.cpp -o test.out
 	
 test: test.out
